@@ -1,0 +1,17 @@
+version: '3.8' #docker version
+services:
+  db:
+    image: postgres:15 #specifies the version of PostgreSQL to use
+    container_name: datacrata_db 
+    restart: always
+    environment:
+      POSTGRES_USER: naimur
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: notification_system
+    ports:
+      - "5432:5432" #maps the container's PostgreSQL port to the host machine, allowing external access to the database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  #mounts the postgres_data volume to the container's data directory, ensuring data persistence
+
+volumes:  #defines a named volume called postgres_data, which is used to store the PostgreSQL data outside of the container, allowing it to persist even if the container is removed or recreated.
+  postgres_data:
