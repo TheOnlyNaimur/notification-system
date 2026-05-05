@@ -11,13 +11,17 @@ This is  full-stack role-based notification dashboard built for an assessment ta
 
 ## Screenshots
 
-Replace these placeholders with your final images.
+### Dashboard
 
-```md
-![Dashboard](./screenshots/dashboard.png)
-![Admin announcement composer](./screenshots/admin-composer.png)
-![Notification modal](./screenshots/notification-modal.png)
-```
+![Dashboard](./screens/dashboard.png)
+
+### Notification Composer
+
+![Notification composer](./screens/notification.png)
+
+### Notification Panel
+
+![Notification panel](./screens/notification%20panel.png)
 
 ## Features
 
@@ -73,6 +77,7 @@ Replace these placeholders with your final images.
 |   |   `-- index.css        # Main styling
 |   |-- package.json
 |   `-- vite.config.js
+|-- screens/                  # README screenshots and database schema image
 |-- docker-compose.yml       # PostgreSQL service
 `-- README.md
 ```
@@ -254,49 +259,48 @@ The separate `notification_states` table is important because one notification c
 
 ### Database Schema Diagram
 
-```mermaid
-erDiagram
-    roles ||--o{ users : has
-    users ||--o{ notification_states : receives
-    notifications ||--o{ notification_states : delivers
+![Database schema](./screens/database%20schema.png)
 
-    roles {
-        integer id PK
-        varchar name UK
-    }
-
-    users {
-        integer id PK
-        varchar username UK
-        varchar email UK
-        integer role_id FK
-    }
-
-    notifications {
-        integer id PK
-        varchar title
-        text message
-        varchar audience_type
-        jsonb role_ids
-        timestamptz created_at
-    }
-
-    notification_states {
-        integer id PK
-        integer notification_id FK
-        integer user_id FK
-        boolean is_read
-        timestamptz delivered_at
-    }
-```
-
-### Table Relationships
+The diagram should show these relationships:
 
 | Relationship | Meaning |
 | --- | --- |
 | `roles` -> `users` | One role can belong to many users. |
 | `notifications` -> `notification_states` | One notification can be delivered to many users. |
 | `users` -> `notification_states` | One user can receive many notifications. |
+
+### SQL Schema Reference
+
+```sql
+CREATE TABLE roles (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR UNIQUE NOT NULL
+);
+
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY,
+    username VARCHAR UNIQUE NOT NULL,
+    email VARCHAR UNIQUE NOT NULL,
+    role_id INTEGER NOT NULL REFERENCES roles(id)
+);
+
+CREATE TABLE notifications (
+    id INTEGER PRIMARY KEY,
+    title VARCHAR(160) NOT NULL,
+    message TEXT NOT NULL,
+    audience_type VARCHAR(20) NOT NULL DEFAULT 'all',
+    role_ids JSONB NOT NULL DEFAULT '[]',
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
+);
+
+CREATE TABLE notification_states (
+    id INTEGER PRIMARY KEY,
+    notification_id INTEGER NOT NULL REFERENCES notifications(id),
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    is_read BOOLEAN NOT NULL DEFAULT false,
+    delivered_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
+);
+```
 
 ### Important Columns
 
