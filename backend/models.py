@@ -6,6 +6,8 @@ from sqlalchemy.sql import func
 from .database import Base
 
 
+# These are our database models. Each class represents a table in the database.
+
 class Role(Base):
     __tablename__ = "roles"
 

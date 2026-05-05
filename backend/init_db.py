@@ -5,7 +5,7 @@ from .database import Base, engine
 from .models import Notification, NotificationState, Role, User
 
 ROLE_NAMES = ["Admin", "Manager", "Editor", "Viewer", "Support"]
-
+# These are the users we want to have in our system right away for testing and demo purposes.
 SEEDED_USERS = [
     ("Navid_Admin", "navid@admin.com", "Admin"),
     ("Sadek_Manager", "sadek@manager.com", "Manager"),

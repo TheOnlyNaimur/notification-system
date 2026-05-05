@@ -8,6 +8,8 @@ from . import database, models
 
 app = FastAPI(title="Role-Based Notification System")
 
+
+# CORS middleware to allow frontend running on different ports to access the API
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -22,18 +24,18 @@ app.add_middleware(
 )
 
 
-class NotificationCreate(BaseModel):
+class NotificationCreate(BaseModel): # Schema for creating a new notification via API
     title: str = Field(..., min_length=2, max_length=160)
     message: str = Field(..., min_length=2)
     audience_type: Literal["all", "roles"]
     role_ids: list[int] = Field(default_factory=list)
 
 
-class NotificationReadUpdate(BaseModel):
+class NotificationReadUpdate(BaseModel): # Schema for updating a notification's read status via API
     is_read: bool
 
 
-class ConnectionManager:
+class ConnectionManager: # Manages WebSocket connections for real-time notifications
     def __init__(self):
         self.active_connections: dict[int, list[WebSocket]] = {}
 
@@ -57,7 +59,7 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 
-def get_db():
+def get_db(): # Dependency function to get a database session for each request
     db = database.SessionLocal()
     try:
         yield db
@@ -65,7 +67,7 @@ def get_db():
         db.close()
 
 
-def serialize_user(user: models.User):
+def serialize_user(user: models.User): # Helper function to convert User model to a dictionary for API responses
     return {
         "id": user.id,
         "username": user.username,
@@ -75,7 +77,7 @@ def serialize_user(user: models.User):
     }
 
 
-def serialize_notification_state(state: models.NotificationState):
+def serialize_notification_state(state: models.NotificationState): # Helper function to convert NotificationState model to a dictionary for API responses
     notification = state.notification
     return {
         "id": notification.id,
@@ -89,7 +91,7 @@ def serialize_notification_state(state: models.NotificationState):
         "is_read": state.is_read,
     }
 
-
+# API endpoints for roles, users, notifications, and WebSocket connections
 @app.get("/")
 def read_root():
     return {"message": "Notification System API is running"}
