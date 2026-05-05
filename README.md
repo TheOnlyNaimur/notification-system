@@ -4,10 +4,10 @@ This is  full-stack role-based notification dashboard built for an assessment ta
 
 ## Links
 
-- Live deployment: `TODO: add deployed frontend/backend link`
-- Demo recording: `TODO: add Loom/Drive/YouTube link`
-- Screenshots: `TODO: add screenshots below or link to a folder`
-- GitHub repository: `TODO: add repository link`
+- Live deployment: 
+- Demo recording: 
+- Screenshots:
+- GitHub repository: https://github.com/TheOnlyNaimur/notification-system.git 
 
 ## Screenshots
 
@@ -38,24 +38,16 @@ Replace these placeholders with your final images.
 
 ## Tech Stack
 
-### Frontend
 
-- React 19
-- Vite
-- JavaScript / JSX
-- CSS
-- lucide-react icons
-- ESLint
+| Layer | Technologies |
+| --- | --- |
+| Frontend | React 19, Vite, JavaScript / JSX |
+| Styling | CSS, lucide-react icons |
+| Backend | Python, FastAPI, Pydantic |
+| Database | PostgreSQL, SQLAlchemy ORM |
+| Real-time | FastAPI WebSockets |
+| Tooling | Node.js, npm, ESLint, Docker Compose, Uvicorn |
 
-### Backend
-
-- Python
-- FastAPI
-- Pydantic
-- SQLAlchemy ORM
-- PostgreSQL
-- WebSockets through FastAPI
-- Uvicorn
 
 ### Infrastructure / Tooling
 
@@ -100,7 +92,7 @@ Make sure these are installed:
 
 ```bash
 git clone <your-repository-url>
-cd datacrata-task
+cd notification-system
 ```
 
 ### 2. Start PostgreSQL
@@ -125,6 +117,7 @@ Create and activate a virtual environment.
 Windows PowerShell:
 
 ```bash
+cd backend
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
@@ -132,11 +125,12 @@ python -m venv .venv
 macOS/Linux:
 
 ```bash
+cd backend
 python -m venv .venv
 source .venv/bin/activate
 ```
 
-Install backend dependencies:
+Install backend dependencies (please install them to your venv):
 
 ```bash
 pip install fastapi uvicorn sqlalchemy psycopg2-binary pydantic
@@ -320,12 +314,7 @@ Recommended deployment split:
 - Backend: Render, Railway, Fly.io, or another Python/FastAPI-friendly host.
 - Database: Managed PostgreSQL from the same hosting provider or a dedicated PostgreSQL service.
 
-## Future Improvements
 
-- Add real authentication and authorization.
-- Move database credentials and API URLs to environment variables.
-- Add Alembic migrations instead of lightweight initialization/migration logic in `init_db.py`.
-- Add automated backend tests for notification targeting and read/unread updates.
-- Add frontend tests for user switching, filtering, and admin-only composer behavior.
-- Add pagination for larger notification histories.
-- Add delete/archive functionality for notifications.
+## Developer : Naimur Islam 
+
+[Back to top](#role-based-notification-system)
