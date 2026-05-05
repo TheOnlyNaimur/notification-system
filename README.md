@@ -1,12 +1,11 @@
 # Role-Based Notification System
 
-This is  full-stack role-based notification dashboard built for an assessment task. The application lets an admin send announcements to all users or selected roles, while each user has a personal inbox with unread counts, read/unread state, filtering, search, and real-time delivery through WebSockets.
+This is a full-stack role-based notification dashboard built for an assessment task. The application lets an admin send announcements to all users or selected roles, while each user has a personal inbox with unread counts, read/unread state, filtering, search, and real-time delivery through WebSockets.
 
 ## Links
 
 - Live deployment: 
-- Demo recording: 
-- Screenshots:
+- Demo recording: https://drive.google.com/file/d/1zIZ9zk4jomKneujqHjKa5Y87L2gNAFal/view?usp=sharing 
 - GitHub repository: https://github.com/TheOnlyNaimur/notification-system.git 
 
 ## Screenshots
@@ -48,7 +47,7 @@ This is  full-stack role-based notification dashboard built for an assessment ta
 | Frontend | React 19, Vite, JavaScript / JSX |
 | Styling | CSS, lucide-react icons |
 | Backend | Python, FastAPI, Pydantic |
-| Database | PostgreSQL, SQLAlchemy ORM (No clould server was used)|
+| Database | PostgreSQL, SQLAlchemy ORM (No cloud server was used) |
 | Real-time | FastAPI WebSockets |
 | Tooling | Node.js, npm, ESLint, Docker Compose, Uvicorn |
 
@@ -123,31 +122,33 @@ Windows PowerShell:
 
 ```bash
 cd backend
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+cd ..
 ```
 
 macOS/Linux:
 
 ```bash
 cd backend
-python -m venv .venv
-source .venv/bin/activate
+python -m venv venv
+source venv/bin/activate
+cd ..
 ```
 
-Install backend dependencies (please install them to your venv):
+With the backend virtual environment activated, install backend dependencies from the project root:
 
 ```bash
 pip install fastapi uvicorn sqlalchemy psycopg2-binary pydantic
 ```
 
-Initialize the database and seed demo data:
+Initialize the database and seed demo data from the project root:
 
 ```bash
 python -m backend.init_db
 ```
 
-Start the backend API:
+Start the backend API from the project root:
 
 ```bash
 uvicorn backend.main:app --reload
