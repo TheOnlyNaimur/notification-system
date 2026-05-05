@@ -44,7 +44,7 @@ Replace these placeholders with your final images.
 | Frontend | React 19, Vite, JavaScript / JSX |
 | Styling | CSS, lucide-react icons |
 | Backend | Python, FastAPI, Pydantic |
-| Database | PostgreSQL, SQLAlchemy ORM |
+| Database | PostgreSQL, SQLAlchemy ORM (No clould server was used)|
 | Real-time | FastAPI WebSockets |
 | Tooling | Node.js, npm, ESLint, Docker Compose, Uvicorn |
 
@@ -251,6 +251,61 @@ The backend uses four main tables:
 - `notification_states`: stores per-user delivery state, including `is_read` and `delivered_at`.
 
 The separate `notification_states` table is important because one notification can be delivered to many users, and each user needs their own read/unread state.
+
+### Database Schema Diagram
+
+```mermaid
+erDiagram
+    roles ||--o{ users : has
+    users ||--o{ notification_states : receives
+    notifications ||--o{ notification_states : delivers
+
+    roles {
+        integer id PK
+        varchar name UK
+    }
+
+    users {
+        integer id PK
+        varchar username UK
+        varchar email UK
+        integer role_id FK
+    }
+
+    notifications {
+        integer id PK
+        varchar title
+        text message
+        varchar audience_type
+        jsonb role_ids
+        timestamptz created_at
+    }
+
+    notification_states {
+        integer id PK
+        integer notification_id FK
+        integer user_id FK
+        boolean is_read
+        timestamptz delivered_at
+    }
+```
+
+### Table Relationships
+
+| Relationship | Meaning |
+| --- | --- |
+| `roles` -> `users` | One role can belong to many users. |
+| `notifications` -> `notification_states` | One notification can be delivered to many users. |
+| `users` -> `notification_states` | One user can receive many notifications. |
+
+### Important Columns
+
+| Table | Important columns | Purpose |
+| --- | --- | --- |
+| `roles` | `id`, `name` | Stores available user roles. |
+| `users` | `id`, `username`, `email`, `role_id` | Stores seeded demo users and their assigned role. |
+| `notifications` | `id`, `title`, `message`, `audience_type`, `role_ids`, `created_at` | Stores notification content and target audience metadata. |
+| `notification_states` | `id`, `notification_id`, `user_id`, `is_read`, `delivered_at` | Tracks delivery and read/unread status separately for each user. |
 
 ## Assumptions and Design Decisions
 
